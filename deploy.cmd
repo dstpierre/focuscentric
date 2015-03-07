@@ -14,8 +14,8 @@ MKDIR %NEWHOME%\site\wwwroot\gopath\src\%FOLDER%
 xcopy %DEPLOYMENT_SOURCE% %NEWHOME%\site\wwwroot\gopath\src\%FOLDER% /Y
 xcopy /r %DEPLOYMENT_SOURCE%\Web.Config %NEWHOME%\site\wwwroot\Web.Config* /Y
 
-xcopy %DEPLOYMENT_SOURCE%\content %NEWHOME%\site\wwwroot\content /Y
-xcopy %DEPLOYMENT_SOURCE%\views %NEWHOME%\site\wwwroot\views /Y
+xcopy %DEPLOYMENT_SOURCE%\content\ %NEWHOME%\site\wwwroot\content\ /S /Y
+xcopy %DEPLOYMENT_SOURCE%\views\ %NEWHOME%\site\wwwroot\views\ /S /Y
 
 SET GOPATH=%NEWHOME%\site\wwwroot\gopath
 SET GOROOT=%NEWHOME%\site\wwwroot\go
