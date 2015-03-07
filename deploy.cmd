@@ -14,11 +14,16 @@ MKDIR %NEWHOME%\site\wwwroot\gopath\src\%FOLDER%
 xcopy %DEPLOYMENT_SOURCE% %NEWHOME%\site\wwwroot\gopath\src\%FOLDER% /Y
 xcopy /r %DEPLOYMENT_SOURCE%\Web.Config %NEWHOME%\site\wwwroot\Web.Config* /Y
 
+xcopy %DEPLOYMENT_SOURCE%\content %NEWHOME%\site\wwwroot\content /Y
+xcopy %DEPLOYMENT_SOURCE%\views %NEWHOME%\site\wwwroot\views /Y
+
 SET GOPATH=%NEWHOME%\site\wwwroot\gopath
 SET GOROOT=%NEWHOME%\site\wwwroot\go
 SET PATH=%PATH%;%GOPATH%\bin;%NEWHOME%\site\wwwroot\go\bin
 
 go get %FOLDER%
+
+xcopy %NEWHOME%\site\wwwroot\gopath\bin\%FOLDER%.exe %NEWHOME%\wwwroot\%FOLDER%.exe /Y
 
 sed -i 's/GOAPPBINARY/%FOLDER%.exe/g' %NEWHOME%\site\wwwroot\Web.Config
 
