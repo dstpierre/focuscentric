@@ -23,7 +23,7 @@ SET PATH=%PATH%;%GOPATH%\bin;%NEWHOME%\site\wwwroot\go\bin
 
 go get %FOLDER%
 
-xcopy %NEWHOME%\site\wwwroot\gopath\bin\%FOLDER%.exe %NEWHOME%\wwwroot\%FOLDER%.exe /Y
+xcopy %NEWHOME%\site\wwwroot\gopath\bin\%FOLDER%.exe %NEWHOME%\site\wwwroot\%FOLDER%.exe /Y
 
 sed -i 's/GOAPPBINARY/%FOLDER%.exe/g' %NEWHOME%\site\wwwroot\Web.Config
 
