@@ -25,6 +25,8 @@ go get %FOLDER%
 
 powershell "stop-process (Get-Process w3wp | Sort-Object ws | Select -first 1).Id"
 
-xcopy %NEWHOME%\site\wwwroot\gopath\bin\%FOLDER%.exe %NEWHOME%\site\wwwroot\app.exe /Y
+DEL %NEWSITE%\site\wwwroot\app.exe
+xcopy %NEWHOME%\site\wwwroot\gopath\bin\%FOLDER%.exe %NEWHOME%\site\wwwroot\ /Y
+REN %NEWSITE%\site\wwwroot\%FOLDER%.exe app.exe
 
 REM sed -i 's/GOAPPBINARY/%FOLDER%.exe/g' %NEWHOME%\site\wwwroot\Web.Config
