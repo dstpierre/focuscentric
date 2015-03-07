@@ -1,0 +1,111 @@
+{{ define "content" }}
+<section class="slider-full-width">
+    <div id="carousel-full" class="carousel slide" data-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <img src="/content/productions/{{.CurrentProduction.Slug}}/slide.jpg" title="{{.CurrentProduction.Title}}" />
+                <div class="container">
+                    <div class="carousel-caption">
+                        {{.CurrentProduction.PresentationHTML}}
+                        <p class="buttons animated" data-animation="fadeIn" data-animation-delay="1.6s">
+                            <a href="/production/{{.CurrentProduction.Slug}}" class="btn btn-theme btn-green"><i class="fa fa-play"></i> Voir un apperçu</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content content-light">
+    <div class="container">
+        <p class="header text-center">Nos vidéos sont <strong>concis</strong> et <strong>complets</strong></p>
+        <p class="text-center">
+            Vous ne perdrez pas de temps avec des notions qui ne vous seront pas utiles. L'accent est mis sur l'apprentissage
+            pratique, quand vous terminez une formation vous êtes prêt à utiliser ce que vous avez appris.
+        </p>
+
+        <hr class="invisible" />
+        <hr class="invisible" />
+
+        <!-- Profil create stage - dotted -->
+        <div class="row profil-create-stage" id="create-stage-toggle">
+            <div class="col-md-3 stage-first active">
+                <a href="#tab-preview" data-toggle="tab">
+                    <i class="fa fa-play-circle fa-4x"></i> <!-- OR fa-user -->
+                    <span>Regardez l'aperçu</span>
+                    <span class="stage-dot"></span>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="#tab-download" data-toggle="tab">
+                    <i class="fa fa-download fa-4x"></i> <!-- OR fa-cloud-upload -->
+                    <span>Commander &amp; télécharger</span>
+                    <span class="stage-dot"></span>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="#tab-github" data-toggle="tab">
+                    <i class="fa fa-github fa-4x"></i> <!-- OR fa-cogs -->
+                    <span>Code example sur GitHub</span>
+                    <span class="stage-dot"></span>
+                </a>
+            </div>
+            <div class="col-md-3 stage-last">
+                <a href="#tab-dev" data-toggle="tab">
+                    <i class="fa fa-code fa-4x"></i> <!-- OR fa-youtube-play OR fa-play-circle-o -->
+                    <span>Développer</span>
+                    <span class="stage-dot"></span>
+                </a>
+            </div>
+        </div>
+
+        <hr class="invisible" />
+        <hr class="invisible" />
+
+        <div class="tab-content">
+            <div id="tab-preview" class="tab-pane fade in active">
+                <p class="header text-center"><strong>Regardez</strong> l'aperçu de la formation.</p>
+                <p class="text-center">Avant de faire un achat, nous vous recommandons de regarder l'aperçu vidéo ainsi que de consulter la description des épisodes.</p>
+            </div>
+            <div id="tab-download" class="tab-pane fade">
+                <p class="header text-center"><strong>Télécharger</strong> la formation</p>
+                <p class="text-center">Une fois votre commande passée, vous pourrez télécharger la formation localement sur votre ordinateur.</p>
+            </div>
+            <div id="tab-github" class="tab-pane fade">
+                <p class="header text-center">Code source example <strong>sur GitHub</strong></p>
+                <p class="text-center">Suivez facilement la formation en consultant le code source disponible sur GitHub.</p>
+            </div>
+            <div id="tab-dev" class="tab-pane fade">
+                <p class="header text-center">Vous êtes près à <strong>développer</strong></p>
+                <p class="text-center">Après la formation, vous serez en mesure d'utiliser les technologies vues en contexte réel d'entreprise.</p>
+            </div>
+        </div>
+
+        <hr class="invisible" />
+        <hr class="invisible" />
+        <hr class="invisible" />
+        <hr class="invisible" />
+
+        <!-- Small boxes with text - 3 box in row -->
+        <div class="row multi-box-row">
+            <div class="col-md-6">
+                <h3><i class="fa fa-level-up fa-2x pull-left text-green"></i> Augmentez vos connaissances</h3>
+                <p>
+                    Notre industrie bouge très rapidement et spécialement le web. Restez à jour avec nos
+                    formations. L'objectif d'une formation est de vous donner les connaissances et la
+                    confiance d'essayer de nouvelles technologies.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h3><i class="fa fa-microphone fa-2x pull-left text-green"></i> Grande qualitée</h3>
+                <p>
+                    Nos productions vous donnent une excellente qualité à prix abordable. Nous mettons les efforts pour vous fournir
+                    des vidéos avec un son clair et des explications précises.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}

@@ -1,0 +1,536 @@
+﻿.first-post-img {
+    display: none;
+}
+#carousel-full .carousel-inner > .item:first-child {
+    height: 420px;
+}
+
+    #carousel-full .carousel-inner > .item:first-child > img, .slider-full-width .carousel-inner > .item:first-child > a > img {
+        min-height: inherit;
+        height: auto;
+    }
+
+    #carousel-full .carousel-inner > .item:first-child .carousel-caption {
+        top: inherit;
+        bottom: 0;
+        text-align: center;
+    }
+
+    #carousel-full .carousel-inner > .item:first-child p.header {
+        font-size: 34px;
+        font-family: 'Roboto';
+        font-weight: 100;
+        line-height: 1.3em;
+    }
+
+        #carousel-full .carousel-inner > .item:first-child p.header + p.header {
+            font-size: 18px;
+            font-family: 'Roboto';
+            font-weight: 100;
+            line-height: 1.3em;
+        }
+
+    #carousel-full .carousel-inner > .item:first-child .btn-green {
+        background-color: #8BC74B;
+        color: #f8f8f8;
+    }
+
+/* Free Course */
+#free-course {
+    background-color: rgb(0,115,166) !important;
+    background-color: rgba(0,115,166,0.95) !important;
+}
+
+    #free-course .fc-content h3 {
+        color: #e75c59 !important;
+        font-size: 20px !important;
+    }
+
+    #free-course button {
+        background-color: #e75c59 !important;
+    }
+
+        #free-course button:hover {
+            background-color: #e44744 !important;
+        }
+
+        #free-course button:active {
+            background-color: #cb2e2a !important;
+        }
+
+    #free-course dl dt, #free-course .fc-content p.description, #free-course .fc-errors {
+        font-size: 13px !important;
+    }
+
+    #free-course input[type='text'], #free-course input[type='email'] {
+        font-size: 14px !important;
+    }
+
+    #free-course button {
+        font-size: 12px !important;
+    }
+/* === Reset styles === */
+.fc-tab h1, .fc-tab h2, .fc-tab h3, .fc-tab div, .fc-tab dl, .fc-tab dt, .fc-tab dd, .fc-tab p, .fc-tab a, .fc-tab input, .fc-tab input[type=text], .fc-tab input[type=email], .fc-tab button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    float: none;
+    width: auto;
+    background-image: none;
+    letter-spacing: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-text-shadow: none !important;
+    -moz-text-shadow: none !important;
+    text-shadow: none !important;
+}
+
+.fc-tab a {
+    text-decoration: none;
+}
+
+.fc-tab :focus {
+    outline: 0;
+}
+
+.fc-tab input::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #999999 !important;
+}
+
+.fc-tab input:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #999999 !important;
+}
+
+.fc-tab input::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #999999 !important;
+}
+
+.fc-tab input:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: #999999 !important;
+}
+/* === Clearfix === */
+.fc-clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: "";
+    clear: both;
+    height: 0;
+}
+
+* html .fc-clearfix {
+    zoom: 1;
+}
+/* IE6 */
+*:first-child + html .fc-clearfix {
+    zoom: 1;
+}
+/* IE7 */
+/* === Main Container === */
+.fc-tab {
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    font-size: 100%;
+    font: inherit;
+    z-index: 10000;
+    color: #333;
+    vertical-align: baseline;
+    text-align: left;
+    -webkit-box-shadow: 0px 0px 20px rgba(0,0,0,0.25);
+    -moz-box-shadow: 0px 0px 20px rgba(0,0,0,0.25);
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.25);
+}
+
+    .fc-tab.bottom {
+        width: 340px;
+        bottom: -800px;
+        -webkit-border-radius: 8px 8px 0 0;
+        -moz-border-radius: 8px 8px 0 0;
+        border-radius: 8px 8px 0 0;
+        -webkit-transition: bottom 200ms ease-in;
+        -moz-transition: bottom 200ms ease-in;
+        -o-transition: bottom 200ms ease-in;
+        transition: bottom 200ms ease-in;
+    }
+
+        .fc-tab.bottom.left {
+            left: 40px;
+        }
+
+        .fc-tab.bottom.right {
+            right: 40px;
+        }
+
+    .fc-tab.side.right {
+        width: 390px;
+        top: 150px;
+        right: -480px;
+        -webkit-border-radius: 8px 0 0 8px;
+        -moz-border-radius: 8px 0 0 8px;
+        border-radius: 8px 0 0 8px;
+        -webkit-transition: right 200ms ease-in;
+        -moz-transition: right 200ms ease-in;
+        -o-transition: right 200ms ease-in;
+        transition: right 200ms ease-in;
+    }
+
+    .fc-tab.side.left {
+        width: 390px;
+        top: 150px;
+        left: -480px;
+        -webkit-border-radius: 0 8px 8px 0;
+        -moz-border-radius: 0 8px 8px 0;
+        border-radius: 0 8px 8px 0;
+        -webkit-transition: left 200ms ease-in;
+        -moz-transition: left 200ms ease-in;
+        -o-transition: left 200ms ease-in;
+        transition: left 200ms ease-in;
+    }
+    /* === Header === */
+    .fc-tab .fc-header {
+    }
+
+    .fc-tab.bottom .fc-header {
+        position: relative;
+        margin: 5px 0 0 0;
+        padding: 0;
+    }
+
+    .fc-tab.side .fc-header {
+        position: absolute;
+        width: 40px;
+        top: 0;
+        bottom: 0;
+    }
+
+    .fc-tab.side.left .fc-header {
+        right: 0;
+    }
+
+    .fc-tab.side.right .fc-header {
+        left: 0;
+    }
+
+    .fc-tab .fc-header.hide {
+        display: none;
+    }
+    /* === Header Toggle === */
+    .fc-tab .fc-toggle {
+        display: block;
+        text-decoration: none;
+    }
+
+    .fc-tab.bottom .fc-toggle {
+        padding: 0 20px;
+    }
+
+    .fc-tab .fc-toggle.hide {
+        display: none;
+    }
+    /* === Teaser === */
+    .fc-tab .fc-header h2 {
+        display: block;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        color: #fff !important;
+        clear: none !important;
+        letter-spacing: 0 !important;
+    }
+
+    .fc-tab.bottom .fc-header h2 {
+        padding: 5px 25px 5px 0 !important;
+        width: auto !important;
+    }
+
+    .fc-tab.side .fc-header h2 {
+        position: absolute !important;
+        padding: 0 20px 0 0 !important;
+        -webkit-box-sizing: border-box !important;
+        -moz-box-sizing: border-box !important;
+        box-sizing: border-box !important;
+        left: -132px;
+        /* -w/2 + padding */
+        top: 185px;
+        /* h/2 - padding */
+        width: 380px;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .fc-tab.side.left .fc-header h2 {
+        -webkit-transform: rotate(90deg) !important;
+        -moz-transform: rotate(90deg) !important;
+        -ms-transform: rotate(90deg) !important;
+        -o-transform: rotate(90deg) !important;
+        transform: rotate(90deg) !important;
+    }
+
+    .fc-tab.side.right .fc-header h2 {
+        -webkit-transform: rotate(-90deg) !important;
+        -moz-transform: rotate(-90deg) !important;
+        -ms-transform: rotate(-90deg) !important;
+        -o-transform: rotate(-90deg) !important;
+        transform: rotate(-90deg) !important;
+    }
+    /* === Arrows === */
+    .fc-tab .fc-header span.arrow {
+        display: block;
+        position: absolute;
+        margin: -3px 0 0 0;
+        padding: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .fc-tab.bottom .fc-header span.arrow {
+        top: 15px;
+        right: 20px;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+    }
+
+        .fc-tab.bottom .fc-header span.arrow.down {
+            border-top: 6px solid #fff;
+            border-bottom: 0;
+        }
+
+        .fc-tab.bottom .fc-header span.arrow.up {
+            border-bottom: 6px solid #fff;
+            border-top: 0;
+        }
+
+    .fc-tab.side .fc-header span.arrow {
+        right: 15px;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+    }
+
+    .fc-tab.side.left .fc-header span.arrow {
+        bottom: 15px;
+    }
+
+    .fc-tab.side.right .fc-header span.arrow {
+        top: 15px;
+    }
+
+        .fc-tab.side.right .fc-header span.arrow.down, .fc-tab.side.left .fc-header span.arrow.up {
+            border-left: 6px solid #fff;
+            border-right: 0;
+        }
+
+        .fc-tab.side.right .fc-header span.arrow.up, .fc-tab.side.left .fc-header span.arrow.down {
+            border-right: 6px solid #fff;
+            border-left: 0;
+        }
+    /* === Content Containers === */
+    .fc-tab .fc-content {
+    }
+
+    .fc-tab.bottom .fc-content {
+        padding: 5px;
+    }
+
+    .fc-tab.side .fc-content {
+        position: absolute;
+        padding: 5px;
+        /* 5px 0 */
+        width: 340px;
+        top: 0;
+    }
+
+    .fc-tab.side.left .fc-content {
+        left: 0;
+    }
+
+    .fc-tab.side.right .fc-content {
+        left: 40px;
+    }
+
+    .fc-tab .fc-content > div.fc-panel {
+        padding: 15px;
+        background-color: #fff;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+    }
+    /*
+.fc-tab.bottom .fc-content > div.fc-panel {
+    -webkit-border-radius: 6px 6px 0 0;
+    -moz-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+.fc-tab.side.left .fc-content > div.fc-panel {
+    -webkit-border-radius: 0 6px 6px 0;
+    -moz-border-radius: 0 6px 6px 0;
+    border-radius: 0 6px 6px 0;
+}
+.fc-tab.side.right .fc-content > div.fc-panel  {
+    -webkit-border-radius: 6px 0 0 6px;
+    -moz-border-radius: 6px 0 0 6px;
+    border-radius: 6px 0 0 6px;
+}*/
+    /* === Powered By === */
+    .fc-tab .fc-powered-by {
+        padding: 8px 8px 3px;
+        font-family: Helvetica, Arial, sans-serif;
+        text-align: left;
+        font-weight: bold;
+        font-size: 10px;
+        line-height: 16px;
+        color: #ffffff;
+        letter-spacing: 1px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+        .fc-tab .fc-powered-by a {
+            color: #ffffff !important;
+            text-decoration: underline !important;
+            letter-spacing: 1px;
+        }
+    /* === Content Headings & Paragraphs === */
+    .fc-tab .fc-content h3 {
+        display: block;
+        margin: 0 20px 0 0 !important;
+        padding: 0 0 15px 0 !important;
+        /* font-size: 20px !important; */
+        /* line-height: 26px !important; */
+        line-height: 1.3 !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        color: #4477bd !important;
+        clear: none !important;
+    }
+
+    .fc-tab .fc-content p.description {
+        margin: 0;
+        padding: 0 0 16px 0;
+        /* font-size: 13px; */
+        line-height: 1.6;
+        text-align: left;
+    }
+
+    .fc-tab .fc-content a.fc-close {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: -1px 0 0 0;
+        float: right;
+        font-size: 28px;
+        line-height: 15px;
+        font-weight: normal;
+        color: #333;
+        opacity: 0.4;
+    }
+
+        .fc-tab .fc-content a.fc-close:hover {
+            text-decoration: none;
+            cursor: pointer;
+            opacity: 0.6;
+        }
+    /* === Content Subscribe Form === */
+    .fc-tab form {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .fc-tab dl {
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+
+        .fc-tab dl dt {
+            display: block;
+            padding: 0 0 5px 0;
+            /* font-size: 13px; */
+            font-weight: bold;
+        }
+
+        .fc-tab dl.no-labels dt {
+            display: none;
+        }
+
+        .fc-tab dl dd {
+            display: block;
+            padding: 0 0 10px 0;
+        }
+
+    .fc-tab input[type='text'], .fc-tab input[type='email'] {
+        margin: 0 !important;
+        padding: 6px !important;
+        height: auto !important;
+        width: 100% !important;
+        /* font-size: 14px !important; */
+        color: #333 !important;
+        border: 1px solid #c4c4c4 !important;
+        -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.18) !important;
+        -moz-box-shadow: inset 0 0 3px rgba(0,0,0,0.18) !important;
+        box-shadow: inset 0 0 3px rgba(0,0,0,0.18) !important;
+        -webkit-border-radius: 4px !important;
+        -moz-border-radius: 4px !important;
+        border-radius: 4px !important;
+        -webkit-box-sizing: border-box !important;
+        -moz-box-sizing: border-box !important;
+        -ms-box-sizing: border-box !important;
+        box-sizing: border-box !important;
+        background-image: none !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+    }
+
+        .fc-tab input[type='text']:focus, .fc-tab input[type='email']:focus {
+            border: 1px solid #a4a4a4;
+            outline: 0;
+            background-image: none;
+        }
+
+    .fc-tab .fc-errors {
+        padding: 5px 0 0 0;
+        /* font-size: 13px; */
+        font-weight: normal;
+        color: red;
+    }
+
+    .fc-tab button {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+        /* background-color: #4477bd; */
+        padding: 3px 12px !important;
+        color: #ffffff !important;
+        font-weight: bold !important;
+        /* font-size: 12px !important; */
+        line-height: 1.6 !important;
+        border: 0 !important;
+        -webkit-border-radius: 15px !important;
+        -moz-border-radius: 15px !important;
+        border-radius: 15px !important;
+        cursor: pointer !important;
+        background-image: none !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        height: auto;
+    }
+
+        .fc-tab button:hover {
+            background-image: none !important;
+        }
+
+        .fc-tab button:active {
+            background-image: none !important;
+        }
+
+
+/* End of Free Course */

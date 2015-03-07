@@ -1,0 +1,81 @@
+﻿@model BlogPost
+@{
+    Layout = "~/Views/Shared/_Blog.cshtml";
+}
+@section breadcrumb
+{
+    <li><a href="/blog">blogue</a></li>
+    <li class="active">billet</li>
+}
+@if (Model != null)
+{
+    <article>
+        <header>
+            <p class="blog-img"><img src="@Model.Body.GetFirstImageFromHtml()" alt="@Model.Title" class="img-rounded" /></p>
+            <p class="blue-box blog-params">
+                <span><i class="fa fa-calendar"></i> <time datetime="@Model.Published.ToString("g")">@Model.Published.ToLongDateString()</time></span>
+                <span><i class="fa fa-user"></i> <a href="#">@Model.Author</a></span>
+                <span><i class="fa fa-tags"></i> <a href="/blog/tag/@Model.Tag.ParseTag(true)">@Model.Tag.ParseTag(false)</a></span>
+            </p>
+        </header>
+
+        <!-- blog description - content -->
+        <div class="blog-content">
+            @Html.Raw(Model.Body)
+        </div>
+
+        <!-- blog author -->
+        <div class="blue-box  author-box">
+            <h2>À propos de <strong>@Model.Author</strong></h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="http://www.dominicstpierre.com/assets/img/me.jpg" class="img-rounded" alt="@Model.Author" />
+                </div>
+                <div class="col-md-9">
+                    <p>
+                        Dominic à plus de 13 ans d'expérience en développement d'application. Ayant débuté avec les 
+                        technologies Microsoft, il a une solide expertise. Par contre, dernièrement, le web, JavaScript, 
+                        Node, Python et Linux s'enlignent pour devenir ces champs d'intérêts pour ces prochains projets.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- blog social -->
+        <div class="blue-box  blog-social">
+            <div class="row">
+                <div class="col-md-3">
+                    <strong>Partager</strong>
+                </div>
+                <div class="col-md-3">
+                    <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ffocuscentric.com%2Fblog%2Fshow%2F@(Model.Slug)&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;appId=188835154460780" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;" allowtransparency="true"></iframe>
+                </div>
+                <div class="col-md-3">
+                    <iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://platform.twitter.com/widgets/tweet_button.html#url=http%3A%2F%2Ffocuscentric.com%2Fblog%2Fshow%2F@(Model.Slug)&text=@(ViewBag.title)" data-twttr-rendered="true"></iframe>
+                </div>
+                <div class="col-md-3">
+                    <iframe src="https://plusone.google.com/_/+1/fastbutton?bsv&amp;size=medium&amp;hl=fr-CA&amp;url=http://focuscentric.com/blog/show/@(Model.Slug)&amp;" allowtransparency="true" frameborder="0" scrolling="no" title="+1"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <hr class="invisible" />
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'focuscentricblog'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </article>
+
+}

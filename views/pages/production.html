@@ -1,0 +1,117 @@
+{{ define "content" }}
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h1>{{.Title}}</h1>
+            </div>
+            <div class="col-md-5">
+                <ol class="breadcrumb pull-right">
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="collections/{{.SubTitle}}">{{.CurrentProduction.Category}}</a></li>
+                    <li class="active">Vidéo</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="preview" class="content content-dark">
+    {{if .CurrentProduction.SingleEpisode }}
+        <p class="header text-center text-white">Voir la formation</p>
+    {{else}}
+        <p class="header text-center text-white">Aperçu du contenu</p>
+    {{end}}
+
+    <div class="row">
+        <div class="col-md-12">
+            <iframe width="960" height="540" src="{{ .CurrentProduction.YoutubePreview}}" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+</section>
+<!-- Video: film view -->
+<section class="content content-regular-page  video-film">
+    <div class="container">
+        <!-- Video film view - center -->
+        <div class="row">
+            <div class="col-md-8">
+                <article>
+                    <!-- Video film - player -->
+                    <a href="#preview" class="video-prev " style="height: 350px; background-image: url('/content/productions/{{ .CurrentProduction.Slug}}/thumb.jpg');"></a>
+
+                    <div class="video-content">
+                        <p>{{ .CurrentProduction.DescriptionHTML }}</p>
+                    </div>
+
+                    <hr class="invisible" />
+                    <hr class="invisible" />
+                </article>
+            </div>
+            <aside class="col-md-4">
+                <h3 class="video-title">{{ .CurrentProduction.Status }}</h3>
+                <p class="video-description"><!-- video-params -->
+                    Cette production à été créée par {{ .CurrentProduction.Author}} en
+                <strong>{{ .CurrentProduction.ReleasedOn }}</strong>.
+                </p>
+                <p class="video-params">
+                    <b>Format: </b> {{ .CurrentProduction.ProductionType }}
+                </p>
+                <p class="video-price">
+                  {{ if .CurrentProduction.SalesPrice }}
+                      <span>{{ .CurrentProduction.Price }}</span> {{ .CurrentProduction.SalesPrice }}
+                  {{end}}
+                  {{ if .CurrentProduction.Price }}
+                    {{ .CurrentProduction.Price }}
+                  {{ else }}
+                    Gratuit
+                  {{end}}
+                </p>
+                <!--<p class="video-description">handler has just finished his Graphic Design degree and enjoys continuing to learn from Monica and building his experience. Joey and Phoebe focus on bringing new business to the company. They have won a number of big clients recently and both also have qualifications in project management to ensure that the projects run smoothly from start to finish.</p>-->
+
+                <p class="button-full buttons-margin-horizontal">
+                      <a href="#preview" class="btn btn-theme btn-green">
+                          Voir la vidéo
+                      </a>
+                </p>
+                <div class="blue-box video-social">
+                    <div class="row">
+                        <p>
+                          Nos formations sont maintenant gratuites. Si vous appréciez notre contenu s'il vous plait
+                          <strong>partagé</strong> dans votre réseau.
+                    </div>
+                </div>
+
+                <h4>Code source</h4>
+                {{ if .CurrentProduction.DownloadLink }}
+                  <p>Le code source est disponible sur GitHub.</p>
+                  <p class="button-full buttons-margin-horizontal">
+                      <a href="{{ .CurrentProduction.DownloadLink }}" class="btn btn-theme btn-info">
+                          <i class="fa fa-github"></i>
+                          Voir sur GitHub
+                      </a>
+                  </p>
+                {{else}}
+                  <p>Aucun code source pour cette formation.</p>
+                {{end}}
+            </aside>
+        </div>
+
+    </div>
+</section>
+
+<section class="content content-dark">
+    <div class="container">
+        {{ if .CurrentProduction.SingleEpisode }}
+            <p class="header text-center">Cette formation n'a qu'un seul épisode</p>
+        {{else}}
+            <p class="header text-center">Les <strong>{{ .CurrentProduction.EpisodeCount }} épisodes</strong> pour cette formation</p>
+        {{end}}
+
+        <div class="row" style="text-align: left;">
+
+            {{ range .CurrentProduction.Episodes }}
+              {{ template "episode" . }}
+            {{end}}
+        </div>
+    </div>
+</section>
+{{end}}

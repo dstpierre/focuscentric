@@ -1,0 +1,113 @@
+{{ define "styles" }}
+<link rel="stylesheet" href="/content/plugin/pretty-photo/css/prettyPhoto.css" />
+{{end}}
+{{ define "content" }}
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h1>{{.Title}}</h1>
+            </div>
+            <div class="col-md-5">
+                <ol class="breadcrumb pull-right">
+                    <li><a href="index.htm">accueil</a></li>
+                    <li>Blogue</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Blog list -->
+<section class="content content-light  blog">
+    <div class="container">
+        <div class="row">
+            <!-- Blog list - center -->
+            <div class="col-md-8">
+              {{ if .Posts }}
+                {{ range .Posts }}
+                      <article class="blog-item">
+                          <header>
+                              <h2 class="blog-title"><a href="/post/{{.Slug}}">{{.Title}}</a></h2>
+                              <p class="blog-img"><img src="{{.FirstImage}}" alt="{{.Title}}" class="img-rounded" /></p>
+                              <p class="blue-box blog-params">
+                                  <span><i class="fa fa-calendar"></i> <time datetime="{{.Published}}">{{.Published}}</time></span>
+                                  <span><i class="fa fa-user"></i> <a href="#">{{.Author}}</a></span>
+                                  <span><i class="fa fa-tags"></i> <a href="/tag/{{.Tag}}">{{.Tag}}</a></span>
+                              </p>
+                          </header>
+                          <p class="blog-description">{{.BodyHTML}}</p>
+                          <p class="text-right blog-link-more"><a href="/post/{{.Slug}}" class="btn btn-theme btn-orange">Lire le billet</a></p>
+                      </article>
+                  {{end}}
+                {{end}}
+
+                    <!-- Pagination -->
+                    <ul class="pagination">
+                        <li class="@(ViewBag.page == 0 ? "disabled" : "")"><a href="@this.PagingLink((int)ViewBag.page - 1)"><i class="fa fa-angle-left"></i></a></li>
+                            <li class="@(i == (int)ViewBag.page ? "active" : "")">
+                                <a href="@this.PagingLink(i)">@(i + 1) </a></li>
+                        <li><a href="@this.PagingLink((int)ViewBag.page + 1)"><i class="fa fa-angle-right"></i></a></li>
+                    </ul>
+            </div>
+
+            <!-- Blog - sidebar -->
+            <aside class="col-md-4" role="complementary">
+
+                <!-- Widget: Gallery -->
+                <section class="widget float-inside gallery">
+                    <h2>Derniers épisodes</h2>
+                    @if (ViewBag.latestepisodes != null)
+                    {
+                        foreach (var e in ((List<EpisodeViewModel>)ViewBag.latestepisodes).Take(8))
+                        {
+                            <a href="/production/@e.Production.Slug" rel="prettyPhoto[gallery1]" title="@e.Episode.Title">
+                                <img src="/content/productions/@e.Production.Slug/latestvideo.png" class="img-rounded" alt="" />
+                            </a>
+                        }
+                    }
+                </section>
+
+                <!-- Widget: Twitter -->
+                <section class="widget twitter">
+                    <h2>Tweets</h2>
+                    <a class="twitter-timeline" href="https://twitter.com/focuscentric" data-widget-id="443726037893914625">Tweets par @focuscentric</a>
+                    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+
+                </section>
+
+                <!-- Widget: Categories -->
+                <section class="widget category">
+                    <h2>Tague</h2>
+                    <nav>
+                        <ul>
+                            @foreach(string t in CacheObjects.BlogTags())
+                            {
+                                <li class="@(ViewBag.tag == t ? "active" : "")">
+                                    <a href="/blog/tag/@t.ParseTag(true)"><i class="fa fa-play"></i>@t.ParseTag(false)</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </section>
+
+                <!-- Widget: Categories -->
+                <section class="widget posts">
+                    <h2>Derniers billets</h2>
+                    <ul>
+                        @foreach(var p in CacheObjects.LatestPosts())
+                        {
+                            <li><a href="/blog/show/@p.Slug">
+                                <h3>@p.Title</h3> @p.Published.ToShortDateString()</a>
+                        </li>
+                        }
+                    </ul>
+                </section>
+            </aside>
+        </div>
+    </div>
+</section>
+{{end}}
+{{ define "scripts" }}
+    <script src="/content/plugin/pretty-photo/js/jquery.prettyPhoto.js"></script>
+{{end}}
