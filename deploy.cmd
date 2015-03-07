@@ -5,7 +5,7 @@ MKDIR %NEWHOME%\site\wwwroot\gopath
 MKDIR %NEWHOME%\site\wwwroot\gopath\bin
 MKDIR %NEWHOME%\site\wwwroot\gopath\src
 
-1set hr=%time:~0,2%
+set hr=%time:~0,2%
 if "%hr:~0,1%" equ " " set hr=0%hr:~1,1%
 SET FOLDER=%date:~-4,4%%date:~-10,2%%date:~-7,2%_%hr%%time:~3,2%%time:~6,2%
 
