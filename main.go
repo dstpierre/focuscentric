@@ -5,8 +5,11 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strings"
+
+	logger "github.com/dstpierre/azure-logger"
 )
 
 var (
@@ -50,7 +53,11 @@ func render(w http.ResponseWriter, name string, data *pageData) (err error) {
 }
 
 func main() {
-	err := openConnection()
+	err := logger.Start()
+	if err != nil {
+		log.SetOutput(os.Stdout)
+	}
+	err = openConnection()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -68,14 +75,14 @@ func main() {
 		log.Println("Cannot get latest blog posts")
 	} else {
 		latestPosts = lb
-    
-    tags = make(map[string]string)
+
+		tags = make(map[string]string)
 
 		for _, p := range lb {
 			t := strings.Split(p.Tag, "|")
-      if _, ok := tags[t[0]]; !ok {
-        tags[t[0]] = t[1]
-      }
+			if _, ok := tags[t[0]]; !ok {
+				tags[t[0]] = t[1]
+			}
 		}
 	}
 
@@ -90,7 +97,7 @@ func main() {
 	http.HandleFunc("/recent", recentHandler)
 
 	http.HandleFunc("/blog/show/", blogEntryHandler)
-  http.HandleFunc("/blog/tag/", blogHandler)
+	http.HandleFunc("/blog/tag/", blogHandler)
 	http.HandleFunc("/blog", blogHandler)
 
 	http.HandleFunc("/contact", contactHandler)
@@ -102,5 +109,10 @@ func main() {
 	http.Handle("/api/productions/", auth(http.HandlerFunc(productionsHandler)))
 
 	http.HandleFunc("/", homeHandler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+
+	port := os.Getenv("HTTP_PLATFORM_PORT")
+	if len(port) == 0 {
+		port = "8080"
+	}
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
