@@ -1,0 +1,52 @@
+{{ define "content" }}
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h1>Nos derniers vidéos publiés</h1>
+            </div>
+            <div class="col-md-5">
+                <ol class="breadcrumb pull-right">
+                    <li><a href="/">Accueil</a></li>
+                    <li class="active">récent vidéos</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content content-light  videos-list videos-list-grid">
+    <div class="container">
+        <div class="pull-right list-view-change">
+            
+        </div>
+        <hr class="invisible" />
+        <div class="row">
+        {{if .LatestEpisodes}}
+        {{range .LatestEpisodes}}
+                <article class="col-md-4 video-item">
+                  <a href="/episode/{{.Slug}}?id={{ .ProductionID }}" class="video-prev video-prev-small" title="{{.Title}}">
+                      <img src="/content/productions/{{.ProductionSlug}}/thumb.jpg" class="img-responsive" />
+                      <i class="fa fa-play"></i>
+                      <span class="overlay"></span>
+                  </a>
+                  <h3 class="video-title">
+                    <a href="/episode/{{ .Slug }}?id={{ .ProductionID }}">{{ .Title }}</a>
+                  </h3>
+                  <div class="row video-params">
+                      <div class="col-md-6">
+                          <b><time datetime="{{ .ReleasedOn }}" class="cute-time">{{ .ReleasedOn }}</time></b>
+                      </div>
+                      <div class="col-md-6 text-right">
+                          <b>{{ if .Price}}{{ .Price }}{{ else }}Gratuit{{ end }}</b>
+                      </div>
+                  </div>
+                </article>
+        {{end}}
+        {{else}}
+            <p>Aucun épisode.</p>
+        {{end}}
+        </div>
+    </div>
+</section>
+{{end}}

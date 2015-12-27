@@ -1,0 +1,204 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <title>{{ .Title }}</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="/content/plugin/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/content/plugin/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/content/css/style.css" />
+    <link rel="stylesheet" href="/content/plugin/animate.min.css" />
+    <link rel="stylesheet" type="text/css" href="/content/css/custom.css" />
+
+    <!-- / CSS Files -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- template "styles" -->
+
+    <!-- Standard Favicon -->
+    <link rel="icon" type="image/x-icon" href="/content/img/fc-small.png" />
+</head>
+<body>
+    <header class="main">
+        <div class="container">
+            <nav class="navbar" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/"><img id="logo" src="/content/img/logo.png" alt="eLearn" /></a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <div class="navbar-right menu-main">
+                        <ul class="nav navbar-nav">
+                            <li><a href="/"><span>Accueil</span></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span>Catégories</span> <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/collections/javascript-nodejs">JavaScript / NodeJS</a></li>
+                                    <li><a href="/collections/net">.NET</a></li>
+                                    <li><a href="/collections/mobile">iOS, Android, Windows Phone</a></li>
+                                    <li><a href="/collections/python">Python</a></li>
+                                    <li><a href="/collections/go">Go / Golang</a></li>
+                                    <li><a href="/collections/autres">Autres / Labs</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="/recent"><span>Récemment publiés</span></a></li>
+                            <li><a href="/blog"><span>Blogue</span></a></li>
+                            <li><a href="/contact"><span>Contact</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    {{ template "content" . }}
+
+    <footer class="main bg-dark-img">
+        <section class="widgets">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4>À propos</h4>
+                        <p>
+                            Notre objectif premier est de publier des formations techniques précises en format vidéo
+                            sur des sujets de programmation tout en démontrant des concepts réel. L'idée est de vous
+                            donner les outils et connaissances pour partir du bon pied avec de nouvelles technologies.
+                        </p>
+                    </div>
+                    <div class="col-md-3 footer-qlink">
+                        <h4>Liens rapides</h4>
+                        <nav>
+                            <ul>
+                                <li><a href="/">accueil</a></li>
+                                <li><a href="/category">catégories</a></li>
+                                <li><a href="/recent">récemment publiés</a></li>
+                                <li><a href="/contact">contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-md-3 footer-blog">
+                        <h4>Derniers épisodes</h4>
+                        <ul class="media-list">
+                            {{if .LatestEpisodes}}
+                            {{range .LatestEpisodes}}
+                                    <li class="media">
+                                        <a class="pull-left" href="/episode/{{ .Slug }}?id={{ .ProductionID }}">
+                                            <img class="media-object img-rounded" src="/content/productions/{{ .ProductionSlug }}/latestvideo.png" alt="{{ .Title }}" />
+                                        </a>
+                                        <div class="media-body">
+                                            <h5 class="media-heading"><a href="/episode/{{ .Slug }}?id={{ .ProductionID }}">{{ .Title }}</a></h5>
+                                            <span class="footer"><time datetime="{{ .ReleasedOn }}" class="cute-time">{{ .ReleasedOn }}</time></span> <!-- attribute "datetime" is optional -->
+                                        </div>
+                                    </li>
+                                {{end}}
+                                {{else}}
+                                  <li>...</li>
+                                {{end}}
+                        </ul>
+                    </div>
+                    <div class="col-md-3 footer-social">
+                        <h4>Suivez-nous</h4>
+                        <a class="btn btn-social social-github" href="https://github.com/focuscentric"><i class="fa fa-github"></i></a>
+                        <a class="btn btn-social social-twitter" href="https://twitter.com/focuscentric"><i class="fa fa-twitter"></i></a>
+                        <a class="btn btn-social social-gplus" href="https://www.google.com/+Focuscentric_com"><i class="fa fa-google-plus"></i></a>
+                        <a class="btn btn-social social-youtube" href="http://www.youtube.com/user/focuscentricvideo"><i class="fa fa-youtube"></i></a>
+                        <a class="btn btn-social social-facebook" href="https://www.facebook.com/focuscentric"><i class="fa fa-facebook"></i></a>
+                        <a class="btn btn-social social-linkedin" href="http://www.linkedin.com/company/focus-centric-inc."><i class="fa fa-linkedin"></i></a>
+                        <!--<a class="btn-social social-vimeo" href="https://vimeo.com/"><i class="fa fa-vimeo"></i></a>-->
+                        <!--<a class="btn-social social-blogger" href="https://www.blogger.com/"><i class="fa fa-facebook"></i></a>-->
+                        <!--a class="btn btn-social social-dribbble" href="http://dribbble.com/KL-Webmedia"><i class="fa fa-dribbble"></i></a-->
+                        <!--<a class="btn-social social-deviantart" href="http://kl-webmedia.deviantart.com/"><i class="fa fa-deviantart"></i></a>-->
+                        <!-- a class="btn btn-social social-tumblr" href="https://www.tumblr.com/"><i class="fa fa-tumblr"></i><a-->
+                        <!--<a class="btn-social social-flickr" href="http://www.flickr.com/"><i class="fa fa-flickr"></i></a>-->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="copyright">
+            <div class="container">
+                &copy; Copyright @DateTime.Now.Year <b>Focus Centric inc.</b> &nbsp; | &nbsp; Tous droits réservés. |
+                <a href="/docs/privacy">Politique de vie privée et condition d'utilisation</a>
+            </div>
+        </section>
+    </footer>
+
+
+
+
+
+    <!-- JavaScript Files -->
+    <script src="/content/plugin/jquery-1.10.2.min.js"></script>
+    <script src="/content/plugin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/content/script/animate.js"></script>
+    <script src="/content/plugin/jquery.cuteTime.min.js"></script>
+    <script src="/content/script/script.js"></script>
+
+    <!-- / JavaScript Files -->
+
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-3132262-30', 'focuscentric.com');
+        ga('send', 'pageview');
+
+    </script>
+</body>
+</html>
+{{ end }}
+{{ define "styles" }}{{ end }}
+{{ define "content" }}{{ end }}
+{{ define "scripts" }}{{ end }}
+{{ define "episode" }}
+<h3>
+    {{ if .YoutubeURL }}
+        <a href="/episode/{{ .Slug }}?id={{ .ProductionID }}">{{.Title}}</a>
+    {{else}}
+        {{.Title}}
+    {{end}}
+</h3>
+<p>
+    {{.Description}}
+</p>
+<div class="row">
+    <div class="col-md-8">
+        <p>
+            {{ if .Duration }}
+              <span>
+                  <strong>Durée: {{.Duration}}</strong>.
+                  Publiée le {{ .ReleasedOn }}
+              </span>
+            {{else}}
+              <span>
+                  <strong>Actuellement en production.</strong>
+                  Date de publication prévu: {{ .ReleasedOn }}
+              </span>
+            {{end}}
+        </p>
+    </div>
+    <div class="col-md-4">
+          <a href="/episode/{{.Slug}}?id={{ .ProductionID }}" class="btn btn-theme btn-orange">
+              <i class="fa fa-play"></i>
+              Voir cet épisode
+          </a>
+    </div>
+</div>
+
+<hr class="invisible" />
+{{end}}

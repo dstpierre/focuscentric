@@ -1,0 +1,90 @@
+{{ define "styles" }}
+<link rel="stylesheet" href="/content/plugin/pretty-photo/css/prettyPhoto.css" /> {{end}} {{ define "content" }}
+<div class="page-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <h1>{{.Title}}</h1>
+      </div>
+      <div class="col-md-5">
+        <ol class="breadcrumb pull-right">
+          <li><a href="/">accueil</a></li>
+          <li>Blogue</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Blog list -->
+<section class="content content-light  blog">
+  <div class="container">
+    <div class="row">
+      <!-- Blog list - center -->
+      <div class="col-md-8">
+        {{ if .Posts }} {{ range .Posts }}
+        <article class="blog-item">
+          <header>
+            <h2 class="blog-title"><a href="/blog/show/{{.Slug}}">{{.Title}}</a></h2>
+            <p class="blog-img"><img src="{{.FirstImage}}" alt="{{.Title}}" class="img-rounded" /></p>
+            <p class="blue-box blog-params">
+              <span><i class="fa fa-calendar"></i> <time datetime="{{.Published}}">{{.Published}}</time></span>
+              <span><i class="fa fa-user"></i> <a href="#">{{.Author}}</a></span>
+              <span><i class="fa fa-tags"></i> <a href="/tag/{{.TagLink}}">{{.TagName}}</a></span>
+            </p>
+          </header>
+          <p class="blog-description">{{.BodyExcerp}}...</p>
+          <p class="text-right blog-link-more"><a href="/blog/show/{{.Slug}}" class="btn btn-theme btn-orange">Lire le billet</a></p>
+        </article>
+        {{ end }} {{ else }}
+        <p>Aucun blogue</p>
+        {{ end }}
+      </div>
+      <!-- Blog - sidebar -->
+      <aside class="col-md-4" role="complementary">
+
+        <!-- Widget: Gallery -->
+        <section class="widget float-inside gallery">
+          <h2>Derniers épisodes</h2> 
+          {{ if .LatestEpisodes }}
+          {{ range .LatestEpisodes }}
+          <a href="/episode/{{ .Slug }}?id={{ .ProductionID }}" rel="prettyPhoto[gallery1]" title="{{ .Title }}">
+            <img src="/content/productions/{{ .ProductionSlug }}/latestvideo.png" class="img-rounded" alt="" />
+          </a>
+          {{ end }}
+          {{ else }}
+          <p>aucun épisode</p>
+          {{ end }}
+        </section>
+
+        <!-- Widget: Twitter -->
+        <section class="widget twitter">
+          <h2>Tweets</h2>
+          <a class="twitter-timeline" href="https://twitter.com/focuscentric" data-widget-id="443726037893914625">Tweets par @focuscentric</a>
+          <script>
+            !function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");
+          </script>
+
+        </section>
+
+        <!-- Widget: Categories -->
+        <section class="widget category">
+          <h2>Tagues</h2>
+          <nav>
+            <ul>
+              {{ if .Tags }}
+              {{ range $k, $v := .Tags }}
+              <li>
+                <a href="/blog/tag/{{ $k }}"><i class="fa fa-play"></i>{{ $v }}</a>
+              </li>
+              {{ end }}
+              {{ end }}
+            </ul>
+          </nav>
+        </section>
+
+      </aside>
+    </div>
+  </div>
+</section>
+{{ end }}

@@ -1,0 +1,58 @@
+{{ define "content" }}
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h1>{{.CurrentEpisode.Title}}</h1>
+            </div>
+            <div class="col-md-5">
+                <ol class="breadcrumb pull-right">
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="/production/{{.CurrentProduction.Slug}}">Formation</a></li>
+                    <li class="active">Épisode</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="preview" class="content content-dark">
+    <div class="row">
+        <iframe width="960" height="540" src="{{.CurrentEpisode.YoutubeURL}}" frameborder="0" allowfullscreen></iframe>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="header text-center">Description</p>
+                {{.CurrentEpisode.Description}}
+
+                <hr class="invisible" />
+                <div class="blue-box video-social">
+                    <div class="row">
+                        <div class="col-md-12">
+                          Merci de partager si vous trouvez cette formation utile.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content content-dark">
+    <div class="container">
+        <p class="header text-center">Les <strong>{{.CurrentProduction.EpisodeCount}} épisodes</strong> pour cette formation</p>
+        <p class="text-center">
+            <a href="/production/{{.CurrentProduction.Slug}}">{{.CurrentProduction.Title}}</a>
+        </p>
+
+        <div class="row" style="text-align: left;">
+          {{range .CurrentProduction.Episodes}}
+            {{ template "episode" . }}
+          {{end}}
+        </div>
+    </div>
+</section>
+{{end}}
