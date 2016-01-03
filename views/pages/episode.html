@@ -18,7 +18,7 @@
 <section id="preview" class="content content-dark">
     <p class="header text-center text-white">{{.CurrentEpisode.Title}}</p>
     <div class="row">
-      {{.CurrentProduction.CurrentPrice}}
+      {{if .CurrentProduction.CurrentPrice}}
         <div class="col-md-4">
           <p>Cette formation fait partie d'une production payante.</p>
         </div>
