@@ -2,9 +2,13 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"html"
 	"html/template"
+	"os"
 	"strings"
+
+	"github.com/mailgun/mailgun-go"
 )
 
 func stripHTML(s string) string {
@@ -69,4 +73,15 @@ func stripHTML(s string) string {
 	output = strings.Replace(output, "&amp;amp; ", "& ", -1) // NB space after
 
 	return output
+}
+
+func sendMail(to, subject, body string) {
+	text := stripHTML(body)
+	gun := mailgun.NewMailgun("mg.focuscentric.com", os.Getenv("MG_KEY"), os.Getenv("MG_PUBKEY"))
+	m := mailgun.NewMessage("Dominic de Focus Centric <dominic@focuscentric.com>", subject, text, "<"+to+">")
+	m.SetHtml(body)
+	_, _, err := gun.Send(m)
+	if err != nil {
+		fmt.Println("error sending email: " + err.Error())
+	}
 }

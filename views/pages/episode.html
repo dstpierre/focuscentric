@@ -16,8 +16,27 @@
     </div>
 </div>
 <section id="preview" class="content content-dark">
+    <p class="header text-center text-white">{{.CurrentEpisode.Title}}</p>
     <div class="row">
+      {{.CurrentProduction.CurrentPrice}}
+        <div class="col-md-4">
+          <p>Cette formation fait partie d'une production payante.</p>
+        </div>
+        <div class="col-md-4">
+          <h2>
+            {{if .CurrentProduction.SalesPrice}}
+              <span class="currency">{{.CurrentProduction.SalesPrices}}</span>
+            {{else}}
+              <span class="currency">{{.CurrentProduction.Price}}</span>
+            {{end}}
+          </h2>
+        </div>
+        <div class="col-md-4">
+          <a href="/production/{{.CurrentProduction.Slug}}" class="btn btn-primary btn-lg">Acheter la formation</button>
+        </div>
+      {{else}}
         <iframe width="960" height="540" src="{{.CurrentEpisode.YoutubeURL}}" frameborder="0" allowfullscreen></iframe>
+      {{end}}
     </div>
 </section>
 

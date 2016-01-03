@@ -1,10 +1,20 @@
 package main
 
 import (
+	"bytes"
+	"encoding/base64"
+	"fmt"
+	"html/template"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
+	"time"
+
+	"github.com/stripe/stripe-go"
+	"github.com/stripe/stripe-go/charge"
 )
 
 type pageData struct {
@@ -17,6 +27,17 @@ type pageData struct {
 	Posts             []*Post
 	Entry             *Post
 	Tags              map[string]string
+}
+
+var purchaseTmpl *template.Template
+
+func init() {
+	t, err := template.ParseFiles("emails/purchase.html")
+	if err != nil {
+		log.Println(err.Error())
+	} else {
+		purchaseTmpl = t
+	}
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -124,8 +145,8 @@ func blogHandler(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 		} else {
-      log.Println("Tag not found: " + tag)
-    }
+			log.Println("Tag not found: " + tag)
+		}
 	}
 
 	d := &pageData{Title: title, LatestEpisodes: latestEpisodes[0:6], Posts: posts, Tags: tags}
@@ -165,6 +186,114 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 	if err := render(w, "contact.html", d); err != nil {
 		log.Println(err)
 	}
+}
+
+func buyHandler(w http.ResponseWriter, r *http.Request) {
+	handleError := func(w http.ResponseWriter, r *http.Request, msg string) {
+		log.Println(msg)
+		http.Redirect(w, r, "/error", http.StatusBadRequest)
+	}
+
+	token := r.FormValue("stripeToken")
+	email := r.FormValue("stripeEmail")
+	productionID, err := strconv.ParseInt(r.FormValue("id"), 10, 32)
+	if err != nil {
+		handleError(w, r, "Invalid production id: "+r.FormValue("id"))
+		return
+	}
+
+	p, err := GetProduction(int(productionID), "")
+	if err != nil {
+		handleError(w, r, "Production not found")
+		return
+	}
+
+	stripe.Key = os.Getenv("STRIPE")
+	params := &stripe.ChargeParams{}
+	params.Amount = uint64(p.CurrentPrice)
+	params.Currency = "cad"
+	params.Desc = "Achat de " + p.Title
+	params.SetSource(token)
+
+	ch, err := charge.New(params)
+	if err != nil {
+		handleError(w, r, err.Error())
+		return
+	}
+
+	purchase := Purchase{}
+	purchase.ProductionID = int(productionID)
+	purchase.Amount = p.CurrentPrice
+	purchase.ChargeID = ch.ID
+	purchase.Email = email
+	err = insertPurchase(purchase)
+	if err != nil {
+		handleError(w, r, err.Error())
+	}
+
+	var emailData = new(struct {
+		Name  string
+		Title string
+		Token string
+	})
+
+	emailData.Name = email
+	emailData.Title = p.Title
+
+	key := fmt.Sprintf("%s|%d|%s", email, productionID, ch.ID)
+	emailData.Token = base64.URLEncoding.EncodeToString([]byte(key))
+
+	var b bytes.Buffer
+	purchaseTmpl.Execute(&b, emailData)
+
+	sendMail(email, "Confirmation d'achat", b.String())
+
+	d := &pageData{Title: "Confirmation d'achat", LatestEpisodes: latestEpisodes[0:3]}
+	if err := render(w, "confirm.html", d); err != nil {
+		log.Println(err)
+	}
+}
+
+func downloadHandler(w http.ResponseWriter, r *http.Request) {
+	key := getID(r.URL.Path, "/download/")
+	if len(key) == 0 {
+		http.Redirect(w, r, "/error", http.StatusNotFound)
+		return
+	}
+
+	b, err := base64.URLEncoding.DecodeString(key)
+	if err != nil {
+		http.Redirect(w, r, "/error", http.StatusNotFound)
+		return
+	}
+
+	parts := strings.Split(string(b), "|")
+	if len(parts) != 3 {
+		http.Redirect(w, r, "/error", http.StatusNotFound)
+		return
+	}
+
+	prodID, err := strconv.ParseInt(parts[1], 10, 32)
+	if err != nil {
+		http.Redirect(w, r, "/error", http.StatusNotFound)
+		return
+	}
+
+	if err = increaseDownload(parts[0], int(prodID), parts[2]); err != nil {
+		http.Redirect(w, r, "/error", http.StatusNotFound)
+		return
+	}
+
+	data, err := ioutil.ReadFile(fmt.Sprintf("prods/%d.zip", prodID))
+	if err != nil {
+		http.Redirect(w, r, "/error", http.StatusNotFound)
+		return
+	}
+	w.Header().Set("Content-Type", "application/octet-stream")
+	w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=%d.zip", prodID))
+	w.Header().Set("Content-Transfer-Encoding", "binary")
+	w.Header().Set("Expires", "0")
+	http.ServeContent(w, r, fmt.Sprintf("download/%d.zip", prodID), time.Now(), bytes.NewReader(data))
 }
 
 func getID(url string, controller string) string {

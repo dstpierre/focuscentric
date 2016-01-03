@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"html/template"
 	"os"
@@ -40,27 +41,30 @@ type EpisodeOverview struct {
 
 // Production represents a video series, containing multiple episodes
 type Production struct {
-	ID               int           `json:"id"`
-	Slug             string        `json:"slug"`
-	Title            string        `json:"title"`
-	Description      string        `json:"desc"`
-	DescriptionHTML  template.HTML `json:"descHtml"`
-	PresentationText string        `json:"presentationText"`
-	PresentationHTML template.HTML `json:"presentationHtml"`
-	Price            float32       `json:"price"`
-	SalesPrice       float32       `json:"salesPrice"`
-	Status           string        `json:"status"`
-	ProductionType   string        `json:"productionType"`
-	Author           string        `json:"author"`
-	ReleasedOn       time.Time     `json:"releasedO"`
-	YoutubePreview   string        `json:"youtubePreview"`
-	IsFeatured       bool          `json:"isFeatured"`
-	DownloadLink     *string       `json:"downloadLink"`
-	Category         string        `json:"category"`
-	Tags             string        `json:"tags"`
-	Episodes         []*Episode
-	EpisodeCount     int
-	SingleEpisode    bool
+	ID                 int           `json:"id"`
+	Slug               string        `json:"slug"`
+	Title              string        `json:"title"`
+	Description        string        `json:"desc"`
+	DescriptionHTML    template.HTML `json:"descHtml"`
+	DescriptionExcerpt string        `json:"descExcerpt"`
+	PresentationText   string        `json:"presentationText"`
+	PresentationHTML   template.HTML `json:"presentationHtml"`
+	Price              float32       `json:"price"`
+	SalesPrice         float32       `json:"salesPrice"`
+	CurrentPrice       int           `json:"currentPrice"`
+	Status             string        `json:"status"`
+	ProductionType     string        `json:"productionType"`
+	Author             string        `json:"author"`
+	ReleasedOn         time.Time     `json:"releasedO"`
+	YoutubePreview     string        `json:"youtubePreview"`
+	IsFeatured         bool          `json:"isFeatured"`
+	DownloadLink       *string       `json:"downloadLink"`
+	Category           string        `json:"category"`
+	Tags               string        `json:"tags"`
+	Episodes           []*Episode
+	EpisodeCount       int
+	SingleEpisode      bool
+	EpisodesDuration   int
 }
 
 // Post represents a blog post
@@ -78,6 +82,17 @@ type Post struct {
 	TagName    string
 	Published  time.Time
 	FirstImage string
+}
+
+// Purchase represent a customer buying a production
+type Purchase struct {
+	ID            int       `json:"id"`
+	ProductionID  int       `json:"productionId"`
+	Email         string    `json:"email"`
+	Amount        int       `json:"amount"`
+	ChargeID      string    `json:"chargeId"`
+	PurchasedDate time.Time `json:"purchasedDate"`
+	Downloaded    int       `json:"downloaded"`
 }
 
 func openConnection() error {
@@ -154,6 +169,16 @@ func readProduction(rows *sql.Rows) (*Production, error) {
 
 	prod.DescriptionHTML = template.HTML(prod.Description)
 	prod.PresentationHTML = template.HTML(prod.PresentationText)
+
+	prod.DescriptionExcerpt = stripHTML(prod.Description)
+	if len(prod.DescriptionExcerpt) > 200 {
+		prod.DescriptionExcerpt = prod.DescriptionExcerpt[:200] + "..."
+	}
+
+	prod.CurrentPrice = int(prod.Price * 100)
+	if prod.SalesPrice > 0 {
+		prod.CurrentPrice = int(prod.SalesPrice * 100)
+	}
 
 	return &prod, err
 }
@@ -284,6 +309,13 @@ func GetProduction(id int, slug string) (*Production, error) {
 		production.Episodes = episodes
 		production.EpisodeCount = len(episodes)
 		production.SingleEpisode = production.EpisodeCount == 1
+    
+    mins := 0
+    for _, e := range production.Episodes {
+      mins += e.Minutes
+    }
+    
+    production.EpisodesDuration = mins
 
 		return production, nil
 	}
@@ -308,12 +340,12 @@ func GetLatestPosts() ([]*Post, error) {
 		p.BodyHTML = template.HTML(p.Body)
 
 		p.BodyExcerp = stripHTML(p.Body)[:300]
-    
-    t := strings.Split(p.Tag, "|")
-    if len(t) == 2 {
-      p.TagLink = t[0]
-      p.TagName = t[1]
-    }
+
+		t := strings.Split(p.Tag, "|")
+		if len(t) == 2 {
+			p.TagLink = t[0]
+			p.TagName = t[1]
+		}
 
 		re, err := regexp.Compile("<img.*?src=\"(.*?)\"[^>]*>")
 		if err != nil {
@@ -483,4 +515,34 @@ func updateEpisode(e *Episode) error {
 	)
 
 	return err
+}
+
+func insertPurchase(p Purchase) error {
+	sql, err := db.Prepare("INSERT INTO Purchases VALUES(?, ?, ?, ?, ?, ?)")
+	if err != nil {
+		return err
+	}
+	defer sql.Close()
+
+	_, err = sql.Exec(p.ProductionID, p.Email, p.Amount, p.ChargeID, time.Now(), 0)
+	return err
+}
+
+func increaseDownload(email string, productionID int, chargeID string) error {
+	sql, err := db.Prepare("UPDATE Purchases SET Downloaded = Downloaded + 1 WHERE Email = ? AND ProductionID = ? AND ChargeID = ?")
+	if err != nil {
+		return err
+	}
+	defer sql.Close()
+
+	r, err := sql.Exec(email, productionID, chargeID)
+	if err != nil {
+		return err
+	}
+
+	c, err := r.RowsAffected()
+	if err != nil || c != 1 {
+		return errors.New("Purchase not found")
+	}
+	return nil
 }

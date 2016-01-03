@@ -8,8 +8,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
-	logger "github.com/dstpierre/azure-logger"
 )
 
 var (
@@ -53,11 +51,7 @@ func render(w http.ResponseWriter, name string, data *pageData) (err error) {
 }
 
 func main() {
-	err := logger.Start()
-	if err != nil {
-		log.SetOutput(os.Stdout)
-	}
-	err = openConnection()
+	err := openConnection()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -102,11 +96,28 @@ func main() {
 
 	http.HandleFunc("/contact", contactHandler)
 
+	http.HandleFunc("/docs/privacy", func(w http.ResponseWriter, r *http.Request) {
+		d := &pageData{Title: "Condition de vie privée", LatestEpisodes: latestEpisodes[0:3]}
+		if err := render(w, "privacy.html", d); err != nil {
+			log.Println(err.Error())
+		}
+	})
+
+	http.HandleFunc("/buy", buyHandler)
+	http.HandleFunc("/download/", downloadHandler)
+
 	http.Handle("/api/episodes", auth(http.HandlerFunc(episodesHandler)))
 	http.Handle("/api/episodes/", auth(http.HandlerFunc(episodesHandler)))
 
 	http.Handle("/api/productions", auth(http.HandlerFunc(productionsHandler)))
 	http.Handle("/api/productions/", auth(http.HandlerFunc(productionsHandler)))
+
+	http.HandleFunc("/error", func(w http.ResponseWriter, r *http.Request) {
+		d := &pageData{Title: "Une erreur est survenue"}
+		if err := render(w, "error.html", d); err != nil {
+			log.Println(err.Error())
+		}
+	})
 
 	http.HandleFunc("/", homeHandler)
 

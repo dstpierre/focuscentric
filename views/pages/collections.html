@@ -1,55 +1,53 @@
 {{ define "content" }}
 <div class="page-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7">
-                <h1>{{.Title}}</h1>
-            </div>
-            <div class="col-md-5">
-                <ol class="breadcrumb pull-right">
-                    <li><a href="/">Accueil</a></li>
-                    <li class="active">{{.SubTitle}}</li>
-                </ol>
-            </div>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <h1>{{.Title}}</h1>
+      </div>
+      <div class="col-md-5">
+        <ol class="breadcrumb pull-right">
+          <li><a href="/">Accueil</a></li>
+          <li class="active">{{.SubTitle}}</li>
+        </ol>
+      </div>
     </div>
+  </div>
 </div>
 
 <section class="content content-light  videos-list videos-list-list">
-    <div class="container">
-        <div class="pull-right list-view-change">
-            <a href="#"><i class="fa fa-th-large"></i> Grille</a>
-            <a href="#" class="active"><i class="fa fa-th-list"></i> Liste</a>
-        </div>
-
-        <hr class="invisible" />
-        {{if .Productions}}
-        {{range .Productions}}
-                <article class="row video-item">
-                <div class="col-md-4">
-                    <a href="/production/{{.Slug}}" class="video-prev video-prev-small" title="{{.Title}}">
-                        <img src="/content/productions/{{.Slug}}/thumb.jpg" class="img-responsive" />
-                    </a>
-                </div>
-                <div class="col-md-8">
-                    <h3 class="video-title"><a href="/production/{{.Slug}}">{{.Title}}</a></h3>
-                    <p class="video-description">{{.Description}}</p>
-                    <p class="video-price">
-                        {{if .SalesPrice}}
-                            <span>{{.Price}}</span> {{.SalesPrice}}
-                        {{end}}
-                        {{if .Price}}
-                            {{.Price}}
-                        {{else}}
-                          Gratuit
-                        {{end}}
-                    </p>
-                </div>
-            </article>
-        {{end}}
-        {{else}}
-            <p>Aucune formation pour cette catégorie. Nous sommes à la production de quelques formations actuellement.</p>
-        {{end}}
+  <div class="container">
+    <div class="pull-right list-view-change">
+      <a href="#"><i class="fa fa-th-large"></i> Grille</a>
+      <a href="#" class="active"><i class="fa fa-th-list"></i> Liste</a>
     </div>
+
+    <hr class="invisible" /> {{if .Productions}} {{range .Productions}}
+    <article class="row video-item">
+      <div class="col-md-4">
+        <a href="/production/{{.Slug}}" class="video-prev video-prev-small" title="{{.Title}}">
+          <img src="/content/productions/{{.Slug}}/thumb.jpg" class="img-responsive" />
+        </a>
+      </div>
+      <div class="col-md-8">
+        <h3 class="video-title"><a href="/production/{{.Slug}}">{{.Title}}</a></h3>
+        <p class="video-description">{{.DescriptionExcerpt}}</p>
+        <p class="video-price">
+          {{if .SalesPrice}}
+            <span class="currency">{{.Price}}</span> <strong class="currency">{{.SalesPrice}}</strong>
+          {{else}}
+            {{if .Price}}
+              <strong class="currency">{{.Price}}</strong>
+            {{else}}
+              Gratuit
+            {{end}}
+          {{end}}
+        </p>
+      </div>
+    </article>
+    {{end}} {{else}}
+    <p>Aucune formation pour cette catégorie. Nous sommes à la production de quelques formations actuellement.</p>
+    {{end}}
+  </div>
 </section>
 {{end}}

@@ -5,6 +5,11 @@ Author: KL-Webmedia
 */
 
 $(document).ready(function () {
+  
+  $(".currency").each(function () {
+    var amount = $(this).text()
+    $(this).text(accounting.formatMoney(amount, "$", 2, ".", ","));
+  })
     
     // GLOBAL - optimization
     var $window = $(window);
