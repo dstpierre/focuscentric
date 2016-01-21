@@ -8,6 +8,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+  
+  logger "github.com/dstpierre/azure-logger"
 )
 
 var (
@@ -51,7 +53,13 @@ func render(w http.ResponseWriter, name string, data *pageData) (err error) {
 }
 
 func main() {
-	err := openConnection()
+  err := logger.Start()
+  if err != nil {
+    log.SetOutput(os.Stderr)
+    log.Panicf("error while starting azure logger: " + err.Error())
+  }
+	
+  err = openConnection()
 	if err != nil {
 		log.Fatal(err)
 	}
