@@ -96,7 +96,7 @@ type Purchase struct {
 }
 
 func openConnection() error {
-	d, err := sql.Open("mssql", os.Getenv("DB"))
+	d, err := sql.Open("mssql", os.Getenv("FOCUSDB"))
 	if err != nil {
 		return err
 	}
@@ -309,12 +309,12 @@ func GetProduction(id int, slug string) (*Production, error) {
 		production.Episodes = episodes
 		production.EpisodeCount = len(episodes)
 		production.SingleEpisode = production.EpisodeCount == 1
-    
+
     mins := 0
     for _, e := range production.Episodes {
       mins += e.Minutes
     }
-    
+
     production.EpisodesDuration = mins
 
 		return production, nil
@@ -488,7 +488,7 @@ func insertEpisode(e *Episode) (int64, error) {
 }
 
 func updateEpisode(e *Episode) error {
-	sql, err := db.Prepare(`UPDATE Episodes SET 
+	sql, err := db.Prepare(`UPDATE Episodes SET
     Title = ?,
     Description = ?,
     ReleasedOn = ?,
